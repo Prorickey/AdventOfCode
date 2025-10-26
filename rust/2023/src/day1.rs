@@ -1,8 +1,11 @@
 // 2023 day 1
 
-use std::{fs, time::SystemTime};
+use std::{time::SystemTime};
 
 use regex::Regex;
+use itertools::Itertools;
+
+const INPUT: &str = include_str!("../challenge_data/2023day1");
 
 pub fn day1() {
     let start = SystemTime::now();
@@ -10,14 +13,18 @@ pub fn day1() {
     let tot2 = part2();
     let duration: u128 = SystemTime::now().duration_since(start).unwrap().as_millis(); 
     
-    println!("Calibrations: Part 1 ({tot1}) & Part 2 ({tot2}) in {}ms", duration)
+    println!("Calibrations: Part 1 ({tot1}) & Part 2 ({tot2}) in {}ms", duration);
+
+    let start = SystemTime::now();
+    let p1 = adjusted_part1();
+    let p2 = adjusted_part2();
+    let duration: u128 = SystemTime::now().duration_since(start).unwrap().as_millis(); 
+
+    println!("Calibrations: Part 1 ({p1}) & Part 2 ({p2}) in {}ms", duration);
 }
 
 fn part1() -> u32 {
-    let contents = fs::read_to_string("./challenge_data/2023day1")
-        .expect("Error reading the challenge data");
-
-    let lines: Vec<&str> = contents.split("\n").collect();
+    let lines: Vec<&str> = INPUT.split("\n").collect();
 
     let mut total = 0;
     for line in lines {
@@ -48,11 +55,20 @@ fn part1() -> u32 {
     total
 }
 
-fn part2() -> u32 {
-    let contents = fs::read_to_string("./challenge_data/2023day1")
-        .expect("Error reading the challenge data");
+fn adjusted_part1() -> i32 {
+   INPUT
+        .lines()
+        .map(|line| {
+            let mut it = line.chars().filter(|c| c.is_ascii_digit());
+            let first = it.next().unwrap();
+            let last = it.next_back().unwrap_or(first);
+            format!("{first}{last}").parse::<i32>().unwrap()
+        })
+        .sum()
+}
 
-    let lines: Vec<&str> = contents.split("\n").collect();
+fn part2() -> u32 {
+    let lines: Vec<&str> = INPUT.split("\n").collect();
 
     let re = Regex::new(r"one|two|three|four|five|six|seven|eight|nine|\d").unwrap();
 
@@ -65,6 +81,28 @@ fn part2() -> u32 {
     }
 
     total
+}
+
+const NUMBERS: &[&str] = &[
+    "0", "zero", "1", "one", "2", "two", "3", "three", "4", "four", "5", "five", "6", "six", "7",
+    "seven", "8", "eight", "9", "nine",
+];
+
+fn adjusted_part2() -> usize {
+    INPUT
+        .lines()
+        .map(|line| {
+            let (a, b) = NUMBERS 
+                .iter()
+                .enumerate()
+                .flat_map(|(i, &n)| line.match_indices(n).map(move |(idx, _)| (idx, i / 2)))
+                .minmax()
+                .into_option()
+                .unwrap();
+
+            a.1 * 10 + b.1
+        })
+        .sum()
 }
 
 fn get_num(mat: &str) -> u32 {
