@@ -1,9 +1,10 @@
 // 2023 day 2
 
-use std::fs;
 use std::time::{SystemTime};
 
 use regex::Regex;
+
+const INPUT: &str = include_str!("../../../challenge_data/2023/day2.txt");
 
 pub fn day2() {
     let start = SystemTime::now();
@@ -15,12 +16,9 @@ pub fn day2() {
 }
 
 fn part1() -> u32 {
-    let contents = fs::read_to_string("./challenge_data/2023day2")
-        .expect("Error reading the challenge data");
-
     let re = Regex::new(r"\d+\s*(red|green|blue)").unwrap();
 
-    let lines: Vec<&str> = contents.split("\n").collect();
+    let lines: Vec<&str> = INPUT.split("\n").collect();
     let mut total = 0;
 
     for line in lines {
@@ -64,12 +62,9 @@ fn part1() -> u32 {
 }
 
 fn part2() -> u32 {
-    let contents = fs::read_to_string("./challenge_data/2023day2")
-        .expect("Error reading the challenge data");
-
     let re = Regex::new(r"\d+\s*(red|green|blue)").unwrap();
 
-    let lines: Vec<&str> = contents.split("\n").collect();
+    let lines: Vec<&str> = INPUT.split("\n").collect();
     let mut total = 0;
 
     for line in lines {
