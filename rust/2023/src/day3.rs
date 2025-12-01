@@ -1,6 +1,6 @@
 use std::time::SystemTime;
 
-const INPUT: &str = include_str!("../../../challenge_data/2023/day3.txt");
+const INPUT: &str = include_str!("../challenge_data/2023/day3.txt");
 
 pub fn day3() {
     let start = SystemTime::now();

@@ -4,7 +4,7 @@ use std::time::{SystemTime};
 
 use regex::Regex;
 
-const INPUT: &str = include_str!("../../../challenge_data/2023/day2.txt");
+const INPUT: &str = include_str!("../challenge_data/2023/day2.txt");
 
 pub fn day2() {
     let start = SystemTime::now();
