@@ -1,11 +1,11 @@
-mod day3;
+mod day4;
 
-use crate::day3::day3;
+use crate::day4::day4;
 
 fn main() {
     println!("Advent of Code runner!");
 
-    day3();
+    day4();
 
     // return
 
